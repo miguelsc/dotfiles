@@ -21,3 +21,12 @@
   * more? https://github.com/hjuutilainen/dotfiles/blob/master/bin/osx-user-defaults.sh
   * symlink https://github.com/mathiasbynens/dotfiles/pull/301
   * great stuff https://github.com/paulmillr/dotfiles
+
+
+TODO
+===
+* save ~/.z file
+* "save" sublime packages
+* think/reorganize my-settings
+* thiink/reoargnize all
+* explore already made cmds 
