@@ -1,0 +1,22 @@
+{
+	"installed_packages":
+	[
+		"AdvancedNewFile",
+		"ColorPick",
+		"DocBlockr",
+		"Dotfiles Syntax Highlighting",
+		"Emmet",
+		"ERB Autocomplete",
+		"Github Color Theme",
+		"GitHub Flavored Markdown Preview",
+		"Jade",
+		"JavaScript Refactor",
+		"JsFormat",
+		"JSONLint",
+		"LaTeXTools",
+		"Package Control",
+		"SublimeLinter",
+		"Theme - amCoder",
+		"Theme - Soda"
+	]
+}

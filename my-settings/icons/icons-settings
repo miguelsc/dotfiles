@@ -1,0 +1,9 @@
+# list format: 
+# icon folder; icon name; app folder; resource icon name
+
+chrome; chrome-5.icns; Google Chrome.app; app.icns
+sublime; sublime-1.icns; Sublime Text 2.app; Sublime Text 2.icns;
+vlc; vlc-1.icns; VLC.app; vlc.icns;
+transmission; transmission-1.icns; Transmission.app; Transmission.icns;
+iterm; iterm-1.icns; iTerm.app; iTerm.icns;
+atom; atom-1.icns; Atom.app; atom.icns;

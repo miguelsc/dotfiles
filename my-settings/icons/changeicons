@@ -1,0 +1,109 @@
+#!/usr/bin/perl
+
+use strict;
+use Getopt::Std;
+
+my $settings_file = "icons-settings";
+
+my %options = ();
+getopts("hf:", \%options);
+
+if ($options{h}) {
+	show_help();
+	exit;
+}
+
+if ($options{f}) {
+	$settings_file = $options{f};
+}
+
+if (!%options) {
+	change_from_args(); 
+} else {
+	change_from_settings_file();
+}
+
+sub change_from_args {
+	open F, "<", $settings_file or die "settings file cannot be found: $!\n"; 
+	my %apps = ();
+	while (<F>) {
+		next if $_ =~ m/(^\s*#)|(^\s*$)/;
+		my @params = split(/;/, $_);
+		map { $_ =~ s/^\s*(.*?)\s*$/$1/} @params;
+		$apps{$params[0]} = \@params; 
+	}
+
+	for (@ARGV) {
+		if ($apps{$_}) {
+			change_icon("$apps{$_}[0]/$apps{$_}[1]", "/Applications/$apps{$_}[2]");
+			replace_resource_icon($apps{$_}[3], "$apps{$_}[0]/$apps{$_}[1]", "/Applications/$apps{$_}[2]");
+		} else {
+			print "$_ can't be found on the settings file\n";
+		}
+	}
+}
+
+sub change_from_settings_file {
+	open F, "<", $settings_file or die "settings file cannot be found: $!\n"; 
+
+	while (<F>) {
+		chomp;
+		next if $_ =~ m/(^\s*#)|(^\s*$)/;
+		my @params = split(/;/, $_);
+		print "@params", "\n";
+		map { $_ =~ s/^\s*(.*?)\s*$/$1/} @params;
+		change_icon("$params[0]/$params[1]", "/Applications/$params[2]");
+		replace_resource_icon($params[3], "$params[0]/$params[1]", "/Applications/$params[2]");
+		print "\n-----\n";
+	}
+	print "\n";
+}
+
+sub change_icon {
+	my ($icon, $app_folder) = @_;
+	print "icon: $icon; app_folder: $app_folder\n";
+
+	my $sips = "sips -i $icon";
+	print $sips, "\n";
+	print qx{$sips};
+	
+	my $de_rez = "DeRez -only icns $icon > /tmp/tmpicns.rsrc";
+	print $de_rez, "\n";
+	print qx{$de_rez};
+	
+	my $del_icon_r = "rm '$app_folder'/'Icon\r';";
+	print $del_icon_r, "\n";
+	print qx{$del_icon_r};
+
+	my $rez = "Rez -append /tmp/tmpicns.rsrc -o '$app_folder'/'Icon\r'";
+	print $rez, "\n";
+	print qx{$rez};
+	
+	my $set_file = "SetFile -a C '$app_folder'";
+	print $set_file, "\n";
+	print qx{$set_file};
+	
+	my $set_file2 = "SetFile -a V '$app_folder'/'Icon\r'";
+	print $set_file2, "\n";
+	print qx{$set_file2};
+}
+
+sub replace_resource_icon {
+	my ($resource_icon_name, $resource_icon_path, $app_folder) = @_;
+
+	my $path = $app_folder . "/Contents/Resources/" . $resource_icon_name;
+	my $bak = $path . ".bak";
+
+	my $mv_bak = "mv '$path' '$bak'";
+	# print $mv_bak, "\n";
+	print qx{$mv_bak};
+
+	my $cp_resource_icon = "cp '$resource_icon_path' '$path'";
+	# print $cp_resource_icon, "\n";
+	print qx{$cp_resource_icon};
+}
+
+
+sub show_help {
+	print "USAGE: changeicons -f settings_file | app1, app2,..\n";
+}
