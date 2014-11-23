@@ -71,7 +71,10 @@ npm install -g jsfmt bower yo
 #### manual run
 * `install-deps.sh` - random apps i need installed
 * `.osx` - run on a fresh osx machine
-* `.brew` - homebrew initialization
+* `homebrew.sh` - homebrew initialization
+
+#### my-settings
+* `restore.pl` - restore app icons, sublime settings & iterm
 
 #### git, brah
 * `.git`
@@ -85,7 +88,7 @@ npm install -g jsfmt bower yo
 ## Installation
 
 ```bash
-git clone https://github.com/paulirish/dotfiles.git && cd dotfiles && ./sync.sh
+git clone https://github.com/miguelsc/dotfiles.git && cd dotfiles && ./sync.sh
 ```
 
 To update later on, just run the sync again.
